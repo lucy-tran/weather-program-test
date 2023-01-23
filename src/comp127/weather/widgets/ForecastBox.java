@@ -33,8 +33,8 @@ public class ForecastBox extends Rectangle {
      */
     public void setActive(boolean active) {
         setFillColor(active
-            ? new Color(0x3ba634)
-            : new Color(0xD9D9D9));
+                ? new Color(0x3ba634)
+                : new Color(0xD9D9D9));
     }
 
     /**

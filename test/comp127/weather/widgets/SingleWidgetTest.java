@@ -17,10 +17,12 @@ public class SingleWidgetTest {
     private static WeatherWidget makeWidget(double size) {
         // Replace TemperatureWidget with your own widget to test
         //         ⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇
-        return new TemperatureWidget(size);
+        return new PressureHumidityWidget(size);
     }
 
     // –––––– Test code ––––––
+
+    private static final List<WeatherData> testData = List.of();
 
     private final GraphicsGroup
         widgetLayer = new GraphicsGroup(),
@@ -63,6 +65,13 @@ public class SingleWidgetTest {
             for (WeatherWidget widget : widgets) {
                 try {
                     widget.update(data);
+                    // Note: This is added only to test the the onClick() method of CloudWidget.
+                    // When clicking on a specific widget, it will first update all widgets on canvas, then execute the
+                    // onclick() method of just that widget. In common sense, it should not work this way. But because
+                    // SingleWidgetTest is only for testing, and for simplification, I resorted to this.
+                    if (widget.getGraphics().isInBounds(event.getPosition())) {
+                        widget.onClick(event.getPosition());
+                    }
                 } catch(Exception e) {
                     System.out.println();
                     e.printStackTrace();

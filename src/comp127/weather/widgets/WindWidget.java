@@ -11,60 +11,50 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A widget that displays the forecast conditions including temperature, minimum and maximum temperature in 3 hours gap.
+ * A widget that displays the forecast wind speed and direction, with a compass representing wind direction.
  *
- * @author Created by Lucy Tran on 10/25/19.
- * Acknowledgement: Hints were given by COMP 127 professors in the original code.
+ * @author Created by Lucy Tran on 10/26/19.
  */
 
-public class ForecastWidget implements WeatherWidget {
+public class WindWidget implements WeatherWidget {
     private final double size;
     private GraphicsGroup group;
-
-    private GraphicsText forecastTemperature;
-    private GraphicsText minMaxTemperature;
-    private GraphicsText description;
-    private GraphicsText predictionDate;
-    private GraphicsText predictionTime;
-    private Image icon;
-    private static String DEGREE = "\u2109";
-
-    private GraphicsGroup boxGroup;  // Holds all the ForecastBox objects
+    private Image compass;
+    private Line arrow;
+    private GraphicsText windSpeed;
+    private GraphicsText windDirectionDescription;
+    private Double windDirection;
+    private double angleRadians;
 
     private List<ForecastBox> boxes = new ArrayList<>();
+    private GraphicsGroup boxGroup;  // Holds all the ForecastBox objects
 
     /**
-     * Creates a forecast widget of dimensions size x size.
+     * Creates a wind forecast widget of dimensions size x size.
      */
-    public ForecastWidget(double size) {
+    public WindWidget(double size) {
         this.size = size;
-
         group = new GraphicsGroup();
-        predictionDate = new GraphicsText();
-        predictionDate.setFont(FontStyle.BOLD, size * 0.07);
-        group.add(predictionDate);
 
-        predictionTime = new GraphicsText();
-        predictionTime.setFont(FontStyle.BOLD, size * 0.07);
-        group.add(predictionTime);
+        compass = new Image(0, 0);
+        compass.setImagePath("condition-icons/compasscolor.png");
+        compass.setMaxWidth(size);
+        compass.setMaxHeight(size * 0.5);
+        group.add(compass);
 
-        icon = new Image(0, 0);
-        icon.setMaxWidth(size);
-        icon.setMaxHeight(size * 0.2);
-        group.add(icon);
+        arrow = new Line(0, 0, 0, 0);
+        arrow.setStrokeWidth(size * 0.02);
+        arrow.setStrokeColor(Color.DARK_GRAY);
+        arrow.setStartPosition(size * 0.51, size * 0.35);
+        group.add(arrow);
 
-        forecastTemperature = new GraphicsText();
-        forecastTemperature.setFont(FontStyle.BOLD, size * 0.07);
-        group.add(forecastTemperature);
+        windSpeed = new GraphicsText();
+        windSpeed.setFont(FontStyle.PLAIN, size * 0.05);
+        group.add(windSpeed);
 
-        minMaxTemperature = new GraphicsText();
-        minMaxTemperature.setFont(FontStyle.PLAIN, size * 0.07);
-        minMaxTemperature.setFillColor(Color.GRAY);
-        group.add(minMaxTemperature);
-
-        description = new GraphicsText();
-        description.setFont(FontStyle.PLAIN, size * 0.06);
-        group.add(description);
+        windDirectionDescription = new GraphicsText();
+        windDirectionDescription.setFont(FontStyle.PLAIN, size * 0.05);
+        group.add(windDirectionDescription);
 
         boxGroup = new GraphicsGroup();
         group.add(boxGroup);
@@ -79,9 +69,8 @@ public class ForecastWidget implements WeatherWidget {
 
     @Override
     public void update(WeatherData data) {
-        boxGroup.removeAll(); // Remove all the old ForecastBoxes from our list
+        boxGroup.removeAll();
         boxes.clear();
-
         List<ForecastConditions> forecasts = data.getForecasts();
         double xPosition = size * 0.05;
         double yPosition = 0;
@@ -95,7 +84,7 @@ public class ForecastWidget implements WeatherWidget {
             boxes.add(fbox);
             xPosition += size * 0.04;
         }
-
+        updateLayout();
         selectForecast(boxes.get(0));
     }
 
@@ -106,9 +95,9 @@ public class ForecastWidget implements WeatherWidget {
      */
     private void selectForecast(ForecastBox box) {
         for (ForecastBox fbox : boxes) {
-            boolean active = fbox == box;
-            fbox.setActive(active);
+            fbox.setActive(false);
         }
+        box.setActive(true);
         ForecastConditions forecast = box.getForecast();
         updateData(forecast);
         updateLayout();
@@ -120,33 +109,30 @@ public class ForecastWidget implements WeatherWidget {
      * @param forecast the forecast conditions to be shown.
      */
     private void updateData(ForecastConditions forecast) {
-        String date = FormattingHelpers.dateFormat(forecast.getPredictionTime());
-        predictionDate.setText(date);
+        FormattingHelpers format = new FormattingHelpers();
+        String speed = format.nullSafeHelper(forecast.getWindSpeed());
+        windSpeed.setText("Wind speed: " + speed + "mph");
 
-        String time = FormattingHelpers.timeFormat(forecast.getPredictionTime());
-        predictionTime.setText(time);
-
-        icon.setImagePath(forecast.getWeatherIcon());
-
-        forecastTemperature.setText(FormattingHelpers.nullSafeHelper(forecast.getTemperature()) + DEGREE);
-
-        String minTemperature = FormattingHelpers.nullSafeHelper(forecast.getMinTemperature());
-        String maxTemperature = FormattingHelpers.nullSafeHelper(forecast.getMaxTemperature());
-        minMaxTemperature.setText(minTemperature + DEGREE + " | " + maxTemperature + DEGREE);
-
-        description.setText(forecast.getWeatherDescription());
+        windDirectionDescription.setText("Wind direction: " + forecast.getWindDirectionAsString());
+        windDirection = forecast.getWindDirectionInDegrees();
     }
 
     /**
      * Sets the graphic objects to the right position on the widget's UI.
      */
     private void updateLayout() {
-        predictionDate.setCenter(size * 0.25, size * 0.08);
-        predictionTime.setCenter(size * 0.78, size * 0.08);
-        icon.setCenter(size * 0.5, size * 0.3);
-        forecastTemperature.setCenter(size * 0.5, size * 0.5);
-        minMaxTemperature.setCenter(size * 0.5, size * 0.61);
-        description.setCenter(size * 0.5, size * 0.7);
+        compass.setCenter(size * 0.5, size * 0.35);
+
+        double arrowLength = size * 0.12;
+        // The end position is set so that the arrow changes clockwise with the degree,
+        // starting Northbound with windDirection of 0 degree.
+        angleRadians = windDirection != null ? Math.toRadians(windDirection) : Math.toRadians(0);
+        double x2 = size * 0.51 + arrowLength * Math.sin(angleRadians);
+        double y2 = size * 0.35 + arrowLength * -Math.cos(angleRadians);
+        arrow.setEndPosition(x2, y2);
+
+        windSpeed.setCenter(size * 0.5, size * 0.68);
+        windDirectionDescription.setCenter(size * 0.5, size * 0.75);
         boxGroup.setCenter(size * 0.5, size * 0.9);
     }
 

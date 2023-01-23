@@ -26,4 +26,12 @@ public interface WeatherWidget {
      * @param position A location in the widget’s local coordinates.
      */
     void onHover(Point position);
+
+    /**
+     * Called when the mouse is clicked on the widget.
+     *
+     * @param position A location in the widget’s local coordinates.
+     */
+    void onClick(Point position);
 }
+

@@ -3,12 +3,14 @@ package comp127.weather.widgets;
 import comp127.weather.api.CurrentConditions;
 import comp127.weather.api.WeatherData;
 import edu.macalester.graphics.*;
+import net.aksingh.owmjapis.AbstractWeather;
 
 /**
  * A widget that displays the current temperature, and the current conditions as an icon and a string.
  *
- * @author Original version created by by Daniel Kluver on 10/6/17.
+ * @author Original version created by Daniel Kluver on 10/6/17. Further development was added by Lucy Tran on 10/20/19.
  */
+
 public class TemperatureWidget implements WeatherWidget {
     private final double size;
     private GraphicsGroup group;
@@ -46,44 +48,37 @@ public class TemperatureWidget implements WeatherWidget {
         return group;
     }
 
+    @Override
     public void update(WeatherData data) {
         CurrentConditions currentConditions = data.getCurrentConditions();
 
         icon.setImagePath(currentConditions.getWeatherIcon());
-
+        FormattingHelpers format = new FormattingHelpers();
         label.setText(
-            currentConditions.getTemperature()
-             + "\u2109");  // degree symbol
+                format.nullSafeHelper(currentConditions.getTemperature())
+                        + "\u2109");  // degree symbol
 
         description.setText(currentConditions.getWeatherDescription());
 
-        // Examples of how to get other weather data (remove this from your finished code):
-        System.out.println(data.getCityName());
-        System.out.println(data.getCurrentConditions().getCloudCoverage());
-        System.out.println(data.getCurrentConditions().getTemperature());
-        System.out.println(data.getCurrentConditions().getPressure());
-        System.out.println(data.getCurrentConditions().getHumidity());
-        System.out.println(data.getCurrentConditions().getWindSpeed());
-        System.out.println(data.getCurrentConditions().getWindDirectionAsString());
-        System.out.println(data.getCurrentConditions().getSunriseTime());
-        System.out.println(data.getCurrentConditions().getSunsetTime());
-        System.out.println(data.getCurrentConditions().getWeatherDescription());
-
-        // Once we’ve updated the visuals, we may need to recenter or respace things:
         updateLayout();
     }
 
+    /**
+     * Sets the graphic objects to the right position on the widget's UI.
+     */
     private void updateLayout() {
         icon.setCenter(size * 0.5, size * 0.4);
-
-        label.setCenter(size * 0.5, size * 0.8);
-
-        // TODO: Place the description directly underneath the label by adding the height of
-        //       description (plus maybe a little padding) to the position of label
+        label.setCenter(size * 0.5, size * 0.75);
+        description.setCenter(size * 0.5, size * 0.85);
     }
 
     @Override
     public void onHover(Point position) {
+        // This widget is not interactive, so this method does nothing.
+    }
+
+    @Override
+    public void onClick(Point position) {
         // This widget is not interactive, so this method does nothing.
     }
 }
