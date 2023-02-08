@@ -65,7 +65,7 @@ public class SingleWidgetTest {
             for (WeatherWidget widget : widgets) {
                 try {
                     widget.update(data);
-                    // Note: This is added only to test the the onClick() method of CloudWidget.
+                    // Note: This is added only to test the onClick() method of CloudWidget.
                     // When clicking on a specific widget, it will first update all widgets on canvas, then execute the
                     // onclick() method of just that widget. In common sense, it should not work this way. But because
                     // SingleWidgetTest is only for testing, and for simplification, I resorted to this.

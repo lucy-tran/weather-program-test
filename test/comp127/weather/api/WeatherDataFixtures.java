@@ -18,6 +18,11 @@ public class WeatherDataFixtures {
         if(seed == 0) {
             return new WeatherData(null, CurrentConditions.BLANK, List.of(ForecastConditions.BLANK));
         }
+        if (seed==-1){
+            return new WeatherData(
+                    ("Mars"),
+                    generateCurrentConditions1(seed), List.of(ForecastConditions.BLANK));
+        }
         return new WeatherData(
             generateCityName(seed),
             generateCurrentConditions(seed),
@@ -40,7 +45,19 @@ public class WeatherDataFixtures {
             generateTimeOfDay(seed, "sunrise", 4, 8),
             generateTimeOfDay(seed, "sunset", 16, 20));
     }
-
+    private static CurrentConditions generateCurrentConditions1(int seed) {
+        return new CurrentConditions(
+                generateDouble(seed, "temperature", 60, 60),
+                generateDouble(seed, "humidity", 50, 50),
+                generateDouble(seed, "pressure", 30, 30),
+                generateDouble(seed, "cloudCoverage", 50, 50),
+                generateDouble(seed, "windSpeed", 75, 75),
+                generateDouble(seed, "windDirectionInDegrees", 180, 180),
+                generateWeatherIcon(seed),
+                generateCondition(seed),
+                generateTimeOfDay(seed, "sunrise", 6, 6),
+                generateTimeOfDay(seed, "sunset", 18, 18));
+    }
     private static ForecastConditions generateForecastConditions(int hoursFromNow, int seed) {
         LocalDateTime randomTimeOfDay = LocalDateTime.now().plusHours(hoursFromNow);
         Date predictionTime = toDate(randomTimeOfDay);
@@ -105,6 +122,9 @@ public class WeatherDataFixtures {
     }
 
     private static String generateCondition(int seed) {
+        if (seed == -1){
+            return  "Sunny";
+        }
         return generateFromOptions(seed, "currentWeather", List.of(
             "Sunnish",
             "Partly clowny",
@@ -121,6 +141,9 @@ public class WeatherDataFixtures {
     }
 
     private static String generateWeatherIcon(int seed) {
+        if (seed == -1){
+            return  "02d";
+        }
         return generateFromOptions(seed, "weatherIcon",
             Stream.of("01", "02", "03", "04", "09", "10", "11", "13", "50")
                 .flatMap((num) -> Stream.of(num + "d", num + "n"))
