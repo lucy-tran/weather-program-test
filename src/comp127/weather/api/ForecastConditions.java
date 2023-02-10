@@ -50,10 +50,10 @@ public class ForecastConditions extends Conditions {
     /**
      * For generating test data
      */
-    ForecastConditions(Date predictionTime, double temperature, double minTemperature, double maxTemperature,
-                       double humidity, double pressure, double cloudCoverage,
-                       double windSpeed, double windDirectionInDegrees,
-                       String weatherDescription, String weatherIconFile) {
+    public ForecastConditions(Date predictionTime, double temperature, double minTemperature, double maxTemperature,
+                              double humidity, double pressure, double cloudCoverage,
+                              double windSpeed, double windDirectionInDegrees,
+                              String weatherDescription, String weatherIconFile) {
         this.predictionTime = predictionTime;
         this.minTemperature = minTemperature;
         this.maxTemperature = maxTemperature;
