@@ -1,4 +1,5 @@
 package comp127.weather.unit;
+import comp127.weather.WeatherProgram;
 import comp127.weather.api.ForecastConditions;
 import comp127.weather.widgets.ForecastBox;
 import org.junit.jupiter.api.Test;
@@ -9,7 +10,6 @@ import java.time.*;
 import java.util.Date;
 
 public class UnitTests {
-
    @Test
    @DisplayName(" test")
    void ForecastBoxTest(){
@@ -23,4 +23,16 @@ public class UnitTests {
       System.out.println(f.getForecast());
       assertEquals(30, f.getForecast().getMaxTemperature());
    }
-}
+
+   @Test
+   @DisplayName("Test Location Change")
+   void LocationDropdownTest() {
+      WeatherProgram weatherProgram = new WeatherProgram(600);
+//      weatherProgram.updateLocation("Tokyo");
+   }
+
+   public static void main(String[] args) {
+      WeatherProgram weatherProgram = new WeatherProgram(600);
+      weatherProgram.updateLocation("Tokyo");
+
+   }}
