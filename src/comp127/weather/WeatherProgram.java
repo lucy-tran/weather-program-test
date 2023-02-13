@@ -6,7 +6,10 @@ import edu.macalester.graphics.CanvasWindow;
 import edu.macalester.graphics.Rectangle;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A weather UI that shows a collection of small widgets down one edge, and allows the user to
@@ -14,7 +17,7 @@ import java.util.List;
  */
 public class WeatherProgram {
 
-    private static final double    // Location for which we're fetching weather
+    private static Double    // Location for which we're fetching weather
             FORECAST_LAT = 44.936593,  // OLRI 256 (approximate)
             FORECAST_LON = -93.168650;
 
@@ -24,6 +27,13 @@ public class WeatherProgram {
     private List<WeatherWidget> miniWidgets, largeWidgets;
     private WeatherWidget displayedLargeWidget;
     private Rectangle selectionHighlight;
+    private static final Map<String, List<Double>> LOCATIONS = Map.of(
+            "Tokyo", List.of(35.6762,  139.6503),
+            "Cairo", List.of(35.6762, 139.6503),
+            "NYC", List.of(40.7128, 74.0060),
+            "Paris", List.of(48.8566, 2.3522),
+            "Ho Chi Minh", List.of(10.8231, 106.6297)
+    );
 
     /**
      * Opens a window, displays the weather UI, and fetches weather conditions.
@@ -70,6 +80,13 @@ public class WeatherProgram {
                 displayedLargeWidget.onClick(event.getPosition()); // added to interact with CloudWidget.
             }
         });
+
+        updateWeather();
+    }
+
+    public void updateLocation(String location) {
+        FORECAST_LAT = LOCATIONS.get(location).get(0);
+        FORECAST_LON = LOCATIONS.get(location).get(1);
 
         updateWeather();
     }
