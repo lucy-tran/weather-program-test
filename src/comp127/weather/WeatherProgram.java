@@ -84,24 +84,29 @@ public class WeatherProgram {
         updateWeather();
     }
 
-    public void updateLocation(String location) {
+    public List<String> updateLocation(String location) {
         FORECAST_LAT = LOCATIONS.get(location).get(0);
         FORECAST_LON = LOCATIONS.get(location).get(1);
 
-        updateWeather();
+        List<String> widgetsCities = updateWeather();
+        return widgetsCities;
     }
 
-    private void updateWeather() {
+    private List<String> updateWeather() {
+        List<String> widgetsCities = new ArrayList<>();
         new OpenWeatherProvider(FORECAST_LAT, FORECAST_LON)
                 .fetchWeather((weatherData) -> {
                     for (WeatherWidget widget : miniWidgets) {
-                        widget.update(weatherData);
+                        String city = widget.update(weatherData);
+                        widgetsCities.add(city);
                     }
                     for (WeatherWidget widget : largeWidgets) {
-                        widget.update(weatherData);
+                        String city = widget.update(weatherData);
+                        widgetsCities.add(city);
                     }
                     canvas.draw();
                 });
+        return widgetsCities;
     }
 
     private List<WeatherWidget> createWidgets(double size) {

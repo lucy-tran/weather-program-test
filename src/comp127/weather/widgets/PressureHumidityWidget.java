@@ -61,7 +61,7 @@ public class PressureHumidityWidget implements WeatherWidget{
     }
 
     @Override
-    public void update(WeatherData data) {
+    public String update(WeatherData data) {
         CurrentConditions currentConditions = data.getCurrentConditions();
 
         pressureIcon.setImagePath("condition-icons/pressure.png");
@@ -74,6 +74,7 @@ public class PressureHumidityWidget implements WeatherWidget{
         description2.setText("Current humidity");
 
         updateLayout();
+        return data.getCityName();
     }
 
     /**

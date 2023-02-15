@@ -24,7 +24,7 @@ public class FormattingHelpers {
     /**
      * Converts a date to a string showing the 12-hour time of day, e.g. "1:46 PM".
      */
-    private static final DateFormat TIME_OF_DAY = new SimpleDateFormat("h:mm a");
+    private static final DateFormat TIME_OF_DAY = new SimpleDateFormat("h:mm a z");
 
     /**
      * Converts a number to a string with one digit past the decimal point.

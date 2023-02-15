@@ -41,11 +41,11 @@ public class ForecastWidget implements WeatherWidget {
 
         group = new GraphicsGroup();
         predictionDate = new GraphicsText();
-        predictionDate.setFont(FontStyle.BOLD, size * 0.07);
+        predictionDate.setFont(FontStyle.BOLD, size * 0.06);
         group.add(predictionDate);
 
         predictionTime = new GraphicsText();
-        predictionTime.setFont(FontStyle.BOLD, size * 0.07);
+        predictionTime.setFont(FontStyle.BOLD, size * 0.05);
         group.add(predictionTime);
 
         icon = new Image(0, 0);
@@ -78,7 +78,7 @@ public class ForecastWidget implements WeatherWidget {
     }
 
     @Override
-    public void update(WeatherData data) {
+    public String update(WeatherData data) {
         boxGroup.removeAll(); // Remove all the old ForecastBoxes from our list
         boxes.clear();
 
@@ -97,6 +97,7 @@ public class ForecastWidget implements WeatherWidget {
         }
 
         selectForecast(boxes.get(0));
+        return data.getCityName();
     }
 
     /**
@@ -110,6 +111,7 @@ public class ForecastWidget implements WeatherWidget {
             fbox.setActive(active);
         }
         ForecastConditions forecast = box.getForecast();
+        System.out.println("Prediction time: " + forecast.getPredictionTime());
         updateData(forecast);
         updateLayout();
     }

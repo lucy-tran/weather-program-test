@@ -17,8 +17,10 @@ public interface WeatherWidget {
     /**
      * Displays the given weather data in the widget, writing over any information the widget was
      * previously displaying.
+     *
+     * @return The city of the weather data
      */
-    void update(WeatherData data);
+    String update(WeatherData data);
 
     /**
      * Called when the mouse moves over the widget.

@@ -35,11 +35,11 @@ public class CloudWidget implements WeatherWidget {
         group = new GraphicsGroup();
 
         predictionDate = new GraphicsText();
-        predictionDate.setFont(FontStyle.BOLD, size * 0.07);
+        predictionDate.setFont(FontStyle.BOLD, size * 0.06);
         group.add(predictionDate);
 
         predictionTime = new GraphicsText();
-        predictionTime.setFont(FontStyle.BOLD, size * 0.07);
+        predictionTime.setFont(FontStyle.BOLD, size * 0.05);
         group.add(predictionTime);
 
         cloudCoverage = new GraphicsText();
@@ -72,13 +72,14 @@ public class CloudWidget implements WeatherWidget {
     }
 
     @Override
-    public void update(WeatherData data) {
+    public String update(WeatherData data) {
         forecasts = data.getForecasts();
         if (forecasts != null && forecasts.size() > 0) {
             selectedForecast = forecasts.get(0);
         }
         updateData();
         updateLayout();
+        return data.getCityName();
     }
 
     /**

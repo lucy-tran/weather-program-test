@@ -48,7 +48,7 @@ public class TemperatureWidget implements WeatherWidget {
     }
 
     @Override
-    public void update(WeatherData data) {
+    public String update(WeatherData data) {
         CurrentConditions currentConditions = data.getCurrentConditions();
 
         icon.setImagePath(currentConditions.getWeatherIcon());
@@ -60,6 +60,7 @@ public class TemperatureWidget implements WeatherWidget {
         description.setText(currentConditions.getWeatherDescription());
 
         updateLayout();
+        return data.getCityName();
     }
 
     /**

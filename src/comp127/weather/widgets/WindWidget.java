@@ -68,7 +68,7 @@ public class WindWidget implements WeatherWidget {
     }
 
     @Override
-    public void update(WeatherData data) {
+    public String update(WeatherData data) {
         boxGroup.removeAll();
         boxes.clear();
         List<ForecastConditions> forecasts = data.getForecasts();
@@ -86,6 +86,7 @@ public class WindWidget implements WeatherWidget {
         }
         updateLayout();
         selectForecast(boxes.get(0));
+        return data.getCityName();
     }
 
     /**

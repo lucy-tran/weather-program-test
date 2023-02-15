@@ -37,11 +37,11 @@ public class SunWidget implements WeatherWidget {
         group.add(iconSunset);
 
         labelSunrise = new GraphicsText();
-        labelSunrise.setFont(FontStyle.BOLD, size * 0.1);
+        labelSunrise.setFont(FontStyle.BOLD, size * 0.06);
         group.add(labelSunrise);
 
         labelSunset = new GraphicsText();
-        labelSunset.setFont(FontStyle.BOLD, size * 0.1);
+        labelSunset.setFont(FontStyle.BOLD, size * 0.06);
         group.add(labelSunset);
 
         description1 = new GraphicsText();
@@ -56,7 +56,7 @@ public class SunWidget implements WeatherWidget {
     }
 
     @Override
-    public void update(WeatherData data) {
+    public String update(WeatherData data) {
         CurrentConditions currentConditions = data.getCurrentConditions();
 
         iconSunrise.setImagePath("condition-icons/sunrise-icon.png");
@@ -69,6 +69,7 @@ public class SunWidget implements WeatherWidget {
         description2.setText("Sunset time");
 
         updateLayout();
+        return data.getCityName();
     }
 
     /**
