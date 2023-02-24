@@ -18,7 +18,7 @@ import java.util.function.Consumer;
  * code specifies Macalester as the location, but you can change that.
  *
  * This class is a custom wrapper over aksingh’s OpenWeatherMap class, providing a simpler and
- * tidier API for the weather widgets homework.
+ * tidier API for the weather widgets' homework.
  */
 public class OpenWeatherProvider {
 
@@ -116,6 +116,10 @@ public class OpenWeatherProvider {
             }
         });
     }
+
+//    public String getConditions(){
+//
+//    }
 
     private <T> T fetch(
             String requestName,

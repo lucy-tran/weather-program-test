@@ -30,17 +30,17 @@ public class UnitTests {
       assertEquals(30, f.getForecast().getMaxTemperature());
    }
 
-   @Test
-   @DisplayName("Location Change")
-   @ParameterizedTest
-   @ValueSource(strings = {"Tokyo"})
-   void LocationDropdownTest(String inputCity) {
+
+//   @DisplayName("Location Change")
+//   @ParameterizedTest
+//   @ValueSource(strings = {"Tokyo"})
+//   void LocationDropdownTest(String inputCity) {
 //      List<String> widgetsCities = weatherProgram.updateLocation(inputCity);
 //      for (String widgetCity: widgetsCities) {
 //         System.out.println(widgetCity);
 //         assertEquals(widgetCity, inputCity);
 //      }
-   }
+//   }
 
 //   public static void main(String[] args) {
    @Test

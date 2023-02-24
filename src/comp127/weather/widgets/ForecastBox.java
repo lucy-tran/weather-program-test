@@ -28,7 +28,7 @@ public class ForecastBox extends Rectangle {
     }
 
     /**
-     * Changes the color of the box to indicate whether it is active. The meaning of “active” is up
+     * Changes the color of the box to indicate whether it is active. The meaning of active is up
      * to each widget that uses this class.
      */
     public void setActive(boolean active) {
