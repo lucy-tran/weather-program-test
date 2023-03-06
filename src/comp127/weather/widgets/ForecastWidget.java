@@ -97,6 +97,7 @@ public class ForecastWidget implements WeatherWidget {
         }
 
         selectForecast(boxes.get(0));
+        System.out.println("city name: " + data.getCityName());
         return data.getCityName();
     }
 

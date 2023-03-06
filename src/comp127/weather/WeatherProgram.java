@@ -131,6 +131,8 @@ public class WeatherProgram {
     }
 
     public static void main(String[] args) {
-        new WeatherProgram(600);
+        WeatherProgram weatherProgram = new WeatherProgram(600);
+        List<String> cities = weatherProgram.updateLocation("Tokyo");
+        System.out.println("List of cities: " + cities.toString());
     }
 }
