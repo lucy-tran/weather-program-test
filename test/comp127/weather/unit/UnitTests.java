@@ -44,7 +44,7 @@ public class UnitTests {
 
 //   public static void main(String[] args) {
    @Test
-  void cityTest(){
+  void updateLocationTest(){
       WeatherProgram weatherProgram = new WeatherProgram(600);
 
       List<String> widgetsCities = weatherProgram.updateLocation("Tokyo");
